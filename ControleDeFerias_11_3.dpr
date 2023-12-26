@@ -29,7 +29,7 @@ uses
   uOpcoes in 'Forms\uOpcoes.pas' {FrmOpcoes};
 
 {$R *.res}
-{$APPTYPE CONSOLE}
+//{$APPTYPE CONSOLE}
 
 begin
   Application.Initialize;

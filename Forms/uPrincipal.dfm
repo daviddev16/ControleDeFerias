@@ -1,7 +1,7 @@
 object FormPrincipal: TFormPrincipal
   Left = 0
   Top = 0
-  Caption = 'FormPrincipal'
+  Caption = 'Controle de f'#233'rias 1.1130'
   ClientHeight = 663
   ClientWidth = 1058
   Color = clBtnFace
@@ -50,7 +50,7 @@ object FormPrincipal: TFormPrincipal
     Panels = <
       item
         Alignment = taCenter
-        Text = 'DAVID.SUP.SHOP / DB_CONTROLE_FERIAS'
+        Text = 'DAVID.SUP.SHOP em 127.0.0.1/DB_CONTROLE_FERIAS'
         Width = 600
       end
       item

@@ -87,7 +87,6 @@ constructor TGerenciadorConfiguracao.Create(var fdConnection: TFDConnection);
 begin
   fDaoConfiguracao := TDAOConfiguracao.Create(fdConnection);
   fDaoConfiguracao.ErrorHandler := Self;
-  WriteLn('GerenciadorConfiguracao criado com sucesso.');
   CarregarConfiguracao;
 end;
 
@@ -152,7 +151,6 @@ begin
   fClBgTextoDesabilitado := GetValue('VisualGridPrincipal', 'ClBgTextoDesabilitado');
   fVlMaximoDeDiasAComprir   := StrToInt(GetValue('CadastroEdicaoFerias', 'VlMaximoDeDiasAComprir'));
   fVlMinimoDeDiasEmPeriodos := StrToInt(GetValue('CadastroEdicaoFerias', 'VlMinimoDeDiasEmPeriodos'));
-  Writeln('Carregado configurações inicias.');
 end;
 
 procedure TGerenciadorConfiguracao.HandleException(exception: EFDDBEngineException);

@@ -203,7 +203,6 @@ begin
   fDaoColaborador.ErrorHandler := Self;
   fDaoCbPeriodos.ErrorHandler := Self;
   fDaoCbProj.ErrorHandler := Self;
-  WriteLn('GerenciadorColaborador criado com sucesso.');
 end;
 
 procedure TGerenciadorColaborador.AdicionarProjeto(idcolaborador: Integer; nomeProjeto: String);

@@ -84,7 +84,6 @@ constructor TGerenciadorProjeto.Create(var fdConnection: TFDConnection);
 begin
   fDaoProjeto := TDAOProjeto.Create(fdConnection);
   fDaoProjeto.ErrorHandler := Self;
-  WriteLn('GerenciadorProjeto criado com sucesso.');
 end;
 
 procedure TGerenciadorProjeto.AtualizarProjetoPorId(const idProjeto: Integer;

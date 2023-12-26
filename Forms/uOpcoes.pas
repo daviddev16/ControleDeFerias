@@ -112,7 +112,6 @@ begin
   CfgValorAtual := GerenciadorConfiguracao.GetValue(section, ident);
   if not String.IsNullOrWhiteSpace(CfgValorAtual) then
   begin
-    writeln(IntToStr(StrToInt(CfgValorAtual)));
     spinEdt.Value := StrToInt(CfgValorAtual);
     spinEdt.Update;
     RegistrarComponente(spinEdt, CfgValorAtual, section, ident);

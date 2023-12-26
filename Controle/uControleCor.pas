@@ -60,7 +60,6 @@ implementation
 constructor TGerenciadorCores.Create(var fdConnection: TFDConnection);
 begin
   fDaoCorTon := TDAOCorTon.Create(fdConnection);
-  WriteLn('GerenciadorCores criado com sucesso.');
 end;
 
 function TGerenciadorCores.LocalizarTodas(out cores: TList<TCorTonalidade>) : Boolean;

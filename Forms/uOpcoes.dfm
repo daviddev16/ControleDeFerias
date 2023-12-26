@@ -1,7 +1,7 @@
 object FrmOpcoes: TFrmOpcoes
   Left = 0
   Top = 0
-  Caption = 'FrmOpcoes'
+  Caption = 'Op'#231#245'es'
   ClientHeight = 224
   ClientWidth = 595
   Color = clBtnFace
@@ -124,7 +124,7 @@ object FrmOpcoes: TFrmOpcoes
     Caption = 'Salvar configura'#231#227'o'
     TabOrder = 1
     OnClick = BtnSalvarCfgClick
-    ExplicitTop = 595
+    ExplicitTop = 188
   end
   object GpBxCfgPeriod: TGroupBox
     Left = 8
@@ -164,7 +164,7 @@ object FrmOpcoes: TFrmOpcoes
         MaxValue = 365
         MinValue = 1
         TabOrder = 0
-        Value = 0
+        Value = 1
       end
     end
     object PnPeriodoMinDFerias: TPanel
@@ -182,11 +182,10 @@ object FrmOpcoes: TFrmOpcoes
       object LblPeriodoMinDFerias: TLabel
         Left = 0
         Top = 0
-        Width = 213
+        Width = 188
         Height = 15
         Anchors = [akLeft, akTop, akRight]
         Caption = 'Per'#237'odo m'#237'nimo de f'#233'rias (em dias):'
-        ExplicitWidth = 188
       end
       object SpnPeriodoMinDFerias: TSpinEdit
         Left = 0
@@ -197,7 +196,7 @@ object FrmOpcoes: TFrmOpcoes
         MaxValue = 365
         MinValue = 1
         TabOrder = 0
-        Value = 0
+        Value = 1
       end
     end
   end

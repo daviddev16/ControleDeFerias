@@ -92,6 +92,7 @@ type
     BtnAdaptarGrid: TSpeedButton;
     BtnGerenciarProjetos: TSpeedButton;
     BtnOpcoes: TSpeedButton;
+
     procedure FormResize(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -104,7 +105,6 @@ type
     procedure BtnOpcoesClick(Sender: TObject);
 
     private
-      FDConnection: TFDConnection;
       MainGridInterceptor : TMainGridInterceptor;
 
       procedure AtualizarGrid;
@@ -315,19 +315,6 @@ var
   oParams : TStringList;
 begin
 
-
-  FDConnection := TFDConnection.Create(nil);
-  FDConnection.Params.MonitorBy := TFDMonitorBy.mbRemote;
-  FDConnection.ConnectionName := 'ControleFerias 11.3.exe';
-
-  FDConnection.Params.Add('Server=localhost');
-  FDConnection.Params.Add('Database=DB_CONTROLE_FERIAS_113');
-  FDConnection.Params.Add('User_Name=postgres');
-  FDConnection.Params.Add('Password=#abc123#');
-  FDConnection.Params.Add('DriverID=PG');
-
-  FDConnection.Connected := True;
-
   Projetos := TObjectList<TProjeto>.Create;
   WindowState := TWindowState.wsMaximized;
 
@@ -341,6 +328,8 @@ begin
 
   ConfigurarAcoes;
 
+  StatusBar1.Panels[0].Text := Format('%s em %s/%s', [FdConnection.Params.UserName,
+    FdConnection.Params.Values['Server'], FdConnection.Params.Database]);
 end;
 
 procedure TFormPrincipal.FormResize(Sender: TObject);
@@ -410,8 +399,14 @@ begin
       .CreateQuery(GridSQL.Text, FDConnection, FDQuery, nil, False);
 
     FrmStatus.Mensagem('Carregando quadro de funcinários...');
-    DcGridPrincipal.DataSet := FDQuery;
-
+    if not FDQuery.IsEmpty then
+    begin
+      DcGridPrincipal.DataSet := FDQuery;
+    end
+    else
+    begin
+      DcGridPrincipal.ClearTableCells;
+    end;
 
     ConfigurarStatusLegendas;
 

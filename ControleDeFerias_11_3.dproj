@@ -4,7 +4,7 @@
         <ProjectVersion>19.5</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -71,6 +71,9 @@
         <DCC_UsePackage>LibComponentesVcl_11_3;LibGerenciadorDb_11_3;$(DCC_UsePackage)</DCC_UsePackage>
         <UsePackages>true</UsePackages>
         <DCC_UnitSearchPath>C:\Program Files (x86)\Daviddev16\Libs;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <UWP_DelphiLogo44>Icones\icone_44px.png</UWP_DelphiLogo44>
+        <Icon_MainIcon>Icones\icone_64px.ico</Icon_MainIcon>
+        <UWP_DelphiLogo150>Icones\icone_150px.png</UWP_DelphiLogo150>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <DCC_UsePackage>dxPSdxSpreadSheetLnkRS28;vclwinx;fmx;dxPSdxMapControlLnkRS28;vclie;DbxCommonDriver;bindengine;IndyIPCommon;VCLRESTComponents;FireDACCommonODBC;cxExportRS28;dxPScxPivotGridLnkRS28;FireDACCommonDriver;dxHttpIndyRequestRS28;appanalytics;IndyProtocols;vclx;dxTileControlRS28;dxPScxVGridLnkRS28;IndyIPClient;dbxcds;vcledge;cxLibraryRS28;dxCloudServiceLibraryRS28;bindcompvclwinx;dxPSdxDBOCLnkRS28;dxPSPrVwRibbonRS28;dxRichEditDocumentModelRS28;cxPivotGridOLAPRS28;cxGridEMFRS28;dxGDIPlusRS28;dxGanttControlRS28;bindcompfmx;dxCoreRS28;cxPivotGridRS28;dxPSdxPDFViewerLnkRS28;inetdb;vclribbon;dxSpreadSheetCoreRS28;cxSchedulerTreeBrowserRS28;dxPSCoreRS28;FireDACSqliteDriver;DbxClientDriver;dxSpreadSheetRS28;dxTabbedMDIRS28;dxSkinsCoreRS28;soapmidas;dxBarRS28;vclactnband;dxADOServerModeRS28;dxWizardControlRS28;fmxFireDAC;dbexpress;dxFireDACServerModeRS28;DBXMySQLDriver;VclSmp;inet;dxServerModeRS28;dxPSdxLCLnkRS28;vcltouch;fmxase;cxTreeListRS28;dxBarDBNavRS28;dxdbtrRS28;dbrtl;dxPSLnksRS28;fmxdae;dxPScxCommonRS28;FireDACMSAccDriver;dxNavBarRS28;CustomIPTransport;dxSpreadSheetReportDesignerRS28;dxChartControlRS28;vcldsnap;dxComnRS28;DBXInterBaseDriver;dxFlowChartDesignerRS28;IndySystem;dxSpreadSheetConditionalFormattingDialogsRS28;cxVerticalGridRS28;cxFireDACAdaptersRS28;dxOrgChartAdvancedCustomizeFormRS28;vcldb;dxDBXServerModeRS28;cxSchedulerRS28;dxRibbonRS28;dxmdsRS28;cxSchedulerGridRS28;dxPSdxOCLnkRS28;dxPScxSchedulerLnkRS28;dxPsPrVwAdvRS28;dxPScxExtCommonRS28;dxRichEditControlRS28;dxFlowChartLayoutsRS28;dxdborRS28;vclFireDAC;dxRichEditControlCoreRS28;bindcomp;FireDACCommon;dxPSdxDBTVLnkRS28;dxRibbonCustomizationFormRS28;IndyCore;RESTBackendComponents;dxPScxGridLnkRS28;cxPivotGridChartRS28;dxBarExtDBItemsRS28;bindcompdbx;dxGaugeControlRS28;cxTreeListdxBarPopupMenuRS28;dxRichEditCoreRS28;rtl;FireDACMySQLDriver;dxDockingRS28;dxPDFViewerRS28;FireDACADSDriver;dxFlowChartAdvancedCustomizeFormRS28;RESTComponents;DBXSqliteDriver;vcl;IndyIPServer;dsnapxml;dsnapcon;adortl;cxSchedulerWebServiceStorageRS28;dxBarExtItemsRS28;dxorgcRS28;dxPSdxFCLnkRS28;dxSpreadSheetCoreConditionalFormattingDialogsRS28;dxtrmdRS28;dxPSdxGaugeControlLnkRS28;dxPSRichEditControlLnkRS28;cxGridRS28;dxSpellCheckerRS28;vclimg;FireDACPgDriver;FireDAC;inetdbxpress;xmlrtl;tethering;dxMapControlRS28;cxADOAdaptersRS28;bindcompvcl;dsnap;dxEMFRS28;CloudService;cxSchedulerRibbonStyleEventEditorRS28;dxPScxTLLnkRS28;fmxobj;bindcompvclsmp;dxFlowChartRS28;dxPScxPCProdRS28;soaprtl;soapserver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
@@ -201,6 +204,20 @@
                 <DeployFile LocalName="Icones\ferias-01.png" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Icones\icone_150px.png" Configuration="Debug" Class="UWP_DelphiLogo150">
+                    <Platform Name="Win32">
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo150x150.png</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Icones\icone_44px.png" Configuration="Debug" Class="UWP_DelphiLogo44">
+                    <Platform Name="Win32">
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo44x44.png</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
