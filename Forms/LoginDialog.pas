@@ -25,7 +25,8 @@ uses
   FireDAC.Comp.Client,
   FireDAC.Stan.Error,
   uGerenciadores,
-  D16Utils, Vcl.Imaging.pngimage;
+  D16Utils,
+  Vcl.Imaging.pngimage;
 
 type
   TLoginForm = class(TForm)
@@ -36,8 +37,12 @@ type
     Label1: TLabel;
     procedure BtnLoginClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+
   private
+
   public
+    Logado : Boolean;
+
   end;
 
 var
@@ -54,7 +59,6 @@ var
   Usuario : TUsuario;
   StrLogin : string;
 begin
-
   if String.IsNullOrWhiteSpace(EdtLogin.Text) then
   begin
     ShowMessage('Login inválido.');
@@ -72,8 +76,9 @@ begin
     end
     else
     begin
-      Hide;
-      FormPrincipal.Show;
+      ModalResult := mrOk;
+      Logado := True;
+      CloseModal;
     end;
   end
   else
@@ -84,10 +89,11 @@ end;
 
 procedure TLoginForm.FormCreate(Sender: TObject);
 begin
-  TUtil.CenterForm(LoginForm);
+  Logado := False;
   Label1.Caption := 'Controle de férias - ' + GerenciadorConfiguracao.UltimaVersao;
   EdtLogin.Text := 'SUPERVISOR';
   EdtSenha.Text := '123';
 end;
+
 
 end.

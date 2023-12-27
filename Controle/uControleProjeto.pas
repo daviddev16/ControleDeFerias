@@ -69,6 +69,7 @@ type
       procedure DeletarPorId(const idProjeto: Integer);
 
       function LocalizarPorId(projetoId: Integer; out projeto: TProjeto): Boolean;
+      function LocalizarProjetoPorIdColaborador(const IdColaborador: Integer; out projetos: TList<TProjeto>): Boolean;
       function LocalizarPorNome(nome: String; out projeto: TProjeto): Boolean;
       function LocalizarTodos(out projetos: TList<TProjeto>): Boolean;
       constructor Create(var fdConnection: TFDConnection);
@@ -105,6 +106,38 @@ end;
 function TGerenciadorProjeto.LocalizarPorNome(nome: String; out projeto: TProjeto): Boolean;
 begin
   Result := DaoProjeto.FindUnique(nome, TProjeto.cfNmProj, projeto);
+end;
+
+function TGerenciadorProjeto.LocalizarProjetoPorIdColaborador(const IdColaborador: Integer;
+                                                              out projetos: TList<TProjeto>): Boolean;
+var
+  SQL : TStringList;
+  Parameters : TDictionary<String, Variant>;
+begin
+  SQL := TStringList.Create;
+  with SQL do
+  begin
+    BeginUpdate;
+    Add('SELECT');
+    Add(' pr.*');
+    Add('FROM');
+    Add(' controleferias.cbproj cp');
+    Add('LEFT JOIN controleferias.projeto pr');
+    Add('ON (pr.idprojeto = cp.idprojeto)');
+    Add('WHERE cp.idcolaborador = :paramIdColaborador;');
+    EndUpdate;
+  end;
+  Parameters := TDictionary<String, Variant>.Create;
+  with Parameters do
+  begin
+    Add('paramIdColaborador', IdColaborador);
+  end;
+  try
+    Result := TFdRTDao<TProjeto>.Query(SQL.Text, Parameters, projetos, DaoProjeto.FdConnection);
+  finally
+    SQL.Free;
+    Parameters.Free;
+  end;
 end;
 
 function TGerenciadorProjeto.LocalizarTodos(out projetos: TList<TProjeto>): Boolean;

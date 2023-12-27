@@ -19,6 +19,7 @@ uses
   uControleProjeto,
   uControleConfiguracao,
   uControleColaborador,
+  uDCGridGlobal,
   uUtility,
   Vcl.Forms,
   FireDAC.Comp.Client,
@@ -43,8 +44,6 @@ type
     CargaLocalCbPeriodos : TList<TCbPeriodos>;
 
     function GetCalcularCorTextoSimples(var dataSet: TDataSet): String;
-
-    procedure RenderizarProjeto(var field: TField; var ComJSONArray: TJSONArray);
     procedure RenderizarPeriodos(var field: TField; var ComJSONArray: TJSONArray);
 
   public
@@ -67,8 +66,16 @@ begin
   ComJSONArray := TJSONArray.Create;
 
   if fieldName = 'projetos' then
-    RenderizarProjeto(field, ComJSONArray)
-
+  begin
+    if not TDCGridCommons.RenderizarProjeto(CargaLocalProjetos, field, ComJSONArray) then
+    begin
+      ComJSONArray.Add(
+        TDCBadgeCellData.CreateJSONObject(
+          GerenciadorConfiguracao.CorFgTextoDesabilitado,
+          GerenciadorConfiguracao.CorBgTextoDesabilitado,
+          'Sem projeto'));
+    end;
+  end
   else if fieldName = 'idcbperiodos' then
     RenderizarPeriodos(field, ComJSONArray)
 
@@ -78,37 +85,6 @@ begin
 
   Result := ComJSONArray.ToString;
   ComJSONArray.Free;
-end;
-
-procedure TMainGridInterceptor.RenderizarProjeto(var field: TField; var ComJSONArray: TJSONArray);
-var
-  QueryIdProjetos : TArray<Variant>;
-  TemProjeto : Boolean;
-begin
-  TemProjeto := False;
-  QueryIdProjetos := TMiscUtil.GetFieldList(Field);
-  for var QrIdProjeto in QueryIdProjetos do
-    for var LocalProjeto in CargaLocalProjetos do
-    begin
-      if QrIdProjeto = LocalProjeto.IdProjeto then
-      begin
-        TemProjeto := True;
-        ComJSONArray.Add(
-          TDCBadgeCellData.CreateJSONObject(
-            LocalProjeto.CorTexto,
-            LocalProjeto.CorFundo,
-            LocalProjeto.Nome));
-      end;
-    end;
-  if not TemProjeto then
-  begin
-    ComJSONArray.Add(
-      TDCBadgeCellData.CreateJSONObject(
-        GerenciadorConfiguracao.CorFgTextoDesabilitado,
-        GerenciadorConfiguracao.CorBgTextoDesabilitado,
-        'Sem projeto definido'));
-  end;
-  SetLength(QueryIdProjetos, 0);
 end;
 
 procedure TMainGridInterceptor.RenderizarPeriodos(var field: TField; var ComJSONArray: TJSONArray);

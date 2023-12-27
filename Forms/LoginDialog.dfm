@@ -20,7 +20,7 @@ object LoginForm: TLoginForm
   object Image1: TImage
     Left = 8
     Top = 8
-    Width = 373
+    Width = 365
     Height = 128
     Anchors = [akLeft, akTop, akRight]
     Center = True
@@ -90,7 +90,7 @@ object LoginForm: TLoginForm
   object Label1: TLabel
     Left = 8
     Top = 142
-    Width = 373
+    Width = 365
     Height = 27
     Alignment = taCenter
     Anchors = [akLeft, akTop, akRight]

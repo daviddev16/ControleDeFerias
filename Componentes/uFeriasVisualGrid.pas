@@ -26,7 +26,7 @@ uses
   DB;
 
 type
-  TFeriasPeriodosInterceptor = class(TInterfacedObject, IDCDataSetInterceptor)
+  TFeriasPeriodosInterceptor = class(TComponent, IDCDataSetInterceptor)
     private
       procedure RenderizarPeriodos(var field: TField; var ComJSONArray: TJSONArray);
 
@@ -40,7 +40,7 @@ type
 
   end;
 
-  TFeriasConflitosInterceptor = class(TInterfacedObject, IDCDataSetInterceptor)
+  TFeriasConflitosInterceptor = class(TComponent, IDCDataSetInterceptor)
     private
       procedure RenderizarValidacoes(var field: TField; var ComJSONArray: TJSONArray);
     public
@@ -158,7 +158,9 @@ var
   FalhaAoCarregar : Boolean;
 begin
   FalhaAoCarregar := False;
-  FreeAndNil(CargaLocalCbPeriodos);
+
+  if Assigned(CargaLocalCbPeriodos) then
+    FreeAndNil(CargaLocalCbPeriodos);
 
   if not GerenciadorColaborador.LocalizarPeriodosPorColaborador(Colaborador.Id, CargaLocalCbPeriodos) then
   begin

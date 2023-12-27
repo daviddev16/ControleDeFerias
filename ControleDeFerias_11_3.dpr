@@ -26,7 +26,9 @@ uses
   uCadastroProjeto in 'Forms\uCadastroProjeto.pas' {FrmCadastroProjeto},
   uControleCor in 'Controle\uControleCor.pas',
   uGerenciadorColaborador in 'Forms\uGerenciadorColaborador.pas',
-  uOpcoes in 'Forms\uOpcoes.pas' {FrmOpcoes};
+  uOpcoes in 'Forms\uOpcoes.pas' {FrmOpcoes},
+  uSelecaoProjeto in 'Forms\uSelecaoProjeto.pas' {FrmSelecaoProjeto},
+  uDCGridGlobal in 'Miscs\uDCGridGlobal.pas';
 
 {$R *.res}
 //{$APPTYPE CONSOLE}
@@ -38,7 +40,6 @@ begin
   Application.Title := 'Controle de férias';
   TGerenciador.Inicializar;
 
-  Application.CreateForm(TLoginForm, LoginForm);
   Application.CreateForm(TFormPrincipal, FormPrincipal);
   Application.Run;
 

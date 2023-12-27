@@ -1,7 +1,7 @@
 object FormPrincipal: TFormPrincipal
   Left = 0
   Top = 0
-  Caption = 'Controle de f'#233'rias 1.1130'
+  Caption = 'Controle de f'#233'rias 1.1130.2'
   ClientHeight = 663
   ClientWidth = 1058
   Color = clBtnFace
@@ -31,6 +31,7 @@ object FormPrincipal: TFormPrincipal
     GridLineWidth = 0
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected, goRowSizing, goColSizing, goColMoving, goEditing, goRowSelect, goFixedRowClick, goFixedRowDefAlign]
     PopupMenu = PopupMenu1
+    ScrollBars = ssVertical
     TabOrder = 0
     OnMouseDown = DcGridPrincipalMouseDown
     ExplicitHeight = 428

@@ -180,13 +180,15 @@ type
 
       {Colaborador}
       function LocalizarPorLogin(const nome: String; out colaborador: TColaborador): Boolean;
-      procedure AtualizarColaboradorPorId(const idColaborador: Integer; alteracoes: TDictionary<String, Variant>);
       function LocalizarTodos(out colaboradores: TList<TColaborador>): Boolean;
-      procedure ExcluirColaboradorPorId(idcolaborador: Integer);
+
       function CriarColaborador(colaborador: TColaborador): Boolean;
+      procedure AtualizarColaboradorPorId(const idColaborador: Integer; alteracoes: TDictionary<String, Variant>);
+      procedure ExcluirColaboradorPorId(idcolaborador: Integer);
 
       {Projeto}
       procedure AdicionarProjeto(idcolaborador: Integer; nomeProjeto: String);
+      procedure RemoverProjeto(idcolaborador: Integer; nomeProjeto: String);
 
   end;
 
@@ -217,7 +219,22 @@ begin
     CbProj.fIdProjeto := Proj.IdProjeto;
     DaoCbProj.Insert(CbProj);
   end;
+end;
 
+procedure TGerenciadorColaborador.RemoverProjeto(idcolaborador: Integer; nomeProjeto: String);
+var
+  CbProj : TCbProj;
+  Proj : TProjeto;
+begin
+  if GerenciadorProjeto.LocalizarPorNome(nomeProjeto, Proj) then
+  begin
+    DaoCbProj.DeleteWhere(
+      TSQLFilterBuilder
+        .Create
+          .Add(TProjeto.cfIdProj, Proj.IdProjeto)
+        .SqlAnd
+          .Add(TColaborador.clIdColaborador, idcolaborador));
+  end;
 end;
 
 function TGerenciadorColaborador.VerificarAutoColapso(const dtInicio, dtFinal: TDateTime;

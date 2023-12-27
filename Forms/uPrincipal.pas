@@ -57,6 +57,7 @@ uses
   uPrinVisualGrid,
   uCadastroFerias,
   uCadastroProjeto,
+  uSelecaoProjeto,
   uControleProjeto,
   uControleColaborador,
   uControleConfiguracao,
@@ -64,6 +65,7 @@ uses
   uGerenciadores,
   uCargaStatus,
   uGerenciadorColaborador,
+  LoginDialog,
   uOpcoes,
   D16Custom;
 
@@ -205,8 +207,8 @@ end;
 procedure TFormPrincipal.AcaoVincularProjetoAoColaborador(sender: TObject);
 var
   LoginSelecionado : String;
-  NomeProjeto : String;
   Colaborador : TColaborador;
+  FrmSelecaoProjeto : TFrmSelecaoProjeto;
 begin
   try
     if DcGridPrincipal.Selection.Top > 0 then
@@ -214,15 +216,17 @@ begin
       LoginSelecionado := GetLoginSelecionado;
       if GerenciadorColaborador.LocalizarPorLogin(LoginSelecionado, Colaborador) then
       begin
-        NomeProjeto := InputBox('Adicionar projeto', 'Nome do projeto:', '');
-        if Not String.IsNullOrWhiteSpace(NomeProjeto) then
-        begin
-          GerenciadorColaborador.AdicionarProjeto(Colaborador.Id, NomeProjeto);
-        end;
+        FrmSelecaoProjeto := TFrmSelecaoProjeto.Create(Colaborador, Self);
+        FrmSelecaoProjeto.ShowModal;
       end;
     end;
   finally
-    Colaborador.Free;
+    if Assigned(FrmSelecaoProjeto) then
+      FrmSelecaoProjeto.Free;
+
+    if Assigned(Colaborador) then
+      Colaborador.Free;
+
     AtualizarGrid;
   end;
 end;
@@ -286,10 +290,10 @@ begin
     JSONObject := ComJSONArray.Get(0) as TJSONObject;
     if JSONObject.GetValue<String>(TKeyDict.vlTextoKey) = nomeColuna then
     begin
+      ComJSONArray.Free;
       Exit(I);
     end;
   end;
-  ComJSONArray.Free;
 end;
 
 procedure TFormPrincipal.DcGridPrincipalMouseDown(Sender: TObject; Button: TMouseButton;
@@ -311,19 +315,28 @@ end;
 
 procedure TFormPrincipal.FormCreate(Sender: TObject);
 var
-  Projetos : TList<TProjeto>;
-  oParams : TStringList;
+  LoginDialog : TLoginForm;
 begin
+  try
+    LoginDialog := TLoginForm.Create(Self);
+    TUtil.CenterForm(LoginDialog);
+    LoginDialog.ShowModal;
+    if not LoginDialog.Logado then
+    begin
+      Close;
+      Application.Terminate;
+    end;
+  finally
+    LoginDialog.Free;
+  end;
 
-  Projetos := TObjectList<TProjeto>.Create;
   WindowState := TWindowState.wsMaximized;
-
   DcGridPrincipal.CustomDrawOptions.TitleColumnHeight := 40;
   DcGridPrincipal.CustomDrawOptions.DrawColumnLine := False;
   DcGridPrincipal.CustomDrawOptions.BadgeLeftPadding := 40;
   DcGridPrincipal.CustomDrawOptions.RowLeftMargin := 10;
-  DcGridPrincipal.CustomDrawOptions.RowTopMargin := 7;
-  DcGridPrincipal.CustomDrawOptions.BadgeTopPadding := 9;
+  DcGridPrincipal.CustomDrawOptions.RowTopMargin := 5;
+  DcGridPrincipal.CustomDrawOptions.BadgeTopPadding := 7;
   DcGridPrincipal.CustomDrawOptions.SelectionFillColor := clBlack;
 
   ConfigurarAcoes;
@@ -354,7 +367,10 @@ var
   FDQuery: TFDQuery;
   GridSQL : TStringList;
   FrmStatus : TCarregamentoStatus;
+  LasSelectedIndex : Integer;
 begin
+  LasSelectedIndex := IfThen(DcGridPrincipal.Row <= -1, 0, DcGridPrincipal.Row);
+
   FrmStatus := TCarregamentoStatus.Create(Self);
   FrmStatus.Show;
   try
@@ -411,6 +427,14 @@ begin
     ConfigurarStatusLegendas;
 
     DcGridPrincipal.ColWidths[0] := 25; {Reajustar tamanho da coluna com "icone"}
+
+    { selecionar ultimo selecionado antes do update na grid }
+    if DcGridPrincipal.RowCount >= LasSelectedIndex then
+    begin
+      DcGridPrincipal.Row := LasSelectedIndex;
+      DcGridPrincipal.Update;
+    end;
+
     FrmStatus.Mensagem('Ok.');
 
   finally

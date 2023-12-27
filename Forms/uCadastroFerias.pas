@@ -338,10 +338,10 @@ end;
 procedure TFrmCadastroFerias.FormShow(Sender: TObject);
 begin
 
-  GridPeriodoInterceptor := TFeriasPeriodosInterceptor.Create;
+  GridPeriodoInterceptor := TFeriasPeriodosInterceptor.Create(Self);
   DcGridPeriodos.DataSetInterceptor := GridPeriodoInterceptor;
 
-  GridConflitosInterceptor := TFeriasConflitosInterceptor.Create;
+  GridConflitosInterceptor := TFeriasConflitosInterceptor.Create(Self);
   DcGridConflitos.DataSetInterceptor := GridConflitosInterceptor;
 
   TUtil.CenterForm(Self);
