@@ -71,6 +71,15 @@ uses
 
 type
 
+  TFiltroPesquisaColaborador = class
+    private
+      fLoginParte : String;
+      fPreenchimentoFerias : String;
+    public
+      property LoginParte : String read fLoginParte write fLoginParte;
+      property PreenchimentoFerias : String read fPreenchimentoFerias write fPreenchimentoFerias;
+  end;
+
   TFormPrincipal = class(TForm)
     FDGUIxWaitCursor1: TFDGUIxWaitCursor;
     DcGridPrincipal: TDCGrid;
@@ -94,6 +103,10 @@ type
     BtnAdaptarGrid: TSpeedButton;
     BtnGerenciarProjetos: TSpeedButton;
     BtnOpcoes: TSpeedButton;
+    GpBxFiltros: TGroupBox;
+    EdtPesquisaLogin: TLabeledEdit;
+    BtnClearFiltro: TButton;
+    ComboBox1: TComboBox;
 
     procedure FormResize(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -105,9 +118,14 @@ type
     procedure BtnGerenciarProjetosClick(Sender: TObject);
     procedure BtnAdicionarColaboradorClick(Sender: TObject);
     procedure BtnOpcoesClick(Sender: TObject);
+    procedure EdtPesquisaLoginKeyPress(Sender: TObject; var Key: Char);
+    procedure BtnClearFiltroClick(Sender: TObject);
+    procedure ComboBox1Select(Sender: TObject);
+
 
     private
       MainGridInterceptor : TMainGridInterceptor;
+      FiltroPesquisaColaborador : TFiltroPesquisaColaborador;
 
       procedure AtualizarGrid;
       procedure ConfigurarAcoes;
@@ -308,6 +326,47 @@ begin
   end;
 end;
 
+procedure TFormPrincipal.EdtPesquisaLoginKeyPress(Sender: TObject;
+  var Key: Char);
+var
+  TextoFiltro : String;
+begin
+  TGlobalVisualMiscs.BlockSpecialCharacterEvent(Sender, Key);
+
+  if Key = #13 then
+  begin
+    TextoFiltro := Trim(EdtPesquisaLogin.Text);
+    if Not String.IsNullOrEmpty(TextoFiltro) then
+    begin
+      if Not Assigned(FiltroPesquisaColaborador) then
+      begin
+        FiltroPesquisaColaborador := TFiltroPesquisaColaborador.Create;
+      end;
+      FiltroPesquisaColaborador.LoginParte := TextoFiltro;
+    end;
+    AtualizarGrid;
+    Key := #0;
+  end
+
+end;
+
+procedure TFormPrincipal.ComboBox1Select(Sender: TObject);
+var
+  TextoSelecionado : String;
+begin
+  if Not Assigned(FiltroPesquisaColaborador) then
+  begin
+    FiltroPesquisaColaborador := TFiltroPesquisaColaborador.Create;
+  end;
+
+  TextoSelecionado := Trim(ComboBox1.Items[ComboBox1.ItemIndex]);
+  if not String.IsNullOrEmpty(TextoSelecionado) then
+  begin
+    FiltroPesquisaColaborador.PreenchimentoFerias := TextoSelecionado;
+  end;
+  AtualizarGrid;
+end;
+
 procedure TFormPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Application.Terminate;
@@ -321,6 +380,7 @@ begin
     LoginDialog := TLoginForm.Create(Self);
     TUtil.CenterForm(LoginDialog);
     LoginDialog.ShowModal;
+    Caption := 'Controle de férias - ' + GerenciadorConfiguracao.UltimaVersao;
     if not LoginDialog.Logado then
     begin
       Close;
@@ -367,10 +427,12 @@ var
   FDQuery: TFDQuery;
   GridSQL : TStringList;
   FrmStatus : TCarregamentoStatus;
+  Parameters : TDictionary<String, Variant>;
   LasSelectedIndex : Integer;
+  ExisteFiltroEmAndamento : Boolean;
 begin
   LasSelectedIndex := IfThen(DcGridPrincipal.Row <= -1, 0, DcGridPrincipal.Row);
-
+  Parameters := TDictionary<String, Variant>.Create;
   FrmStatus := TCarregamentoStatus.Create(Self);
   FrmStatus.Show;
   try
@@ -378,6 +440,7 @@ begin
     FrmStatus.Status('Aguarde');
     FrmStatus.Mensagem('Carregando informações de projeto e períodos...');
     MainGridInterceptor.CarregarDadosLocais;
+    ExisteFiltroEmAndamento := Assigned(FiltroPesquisaColaborador);
 
     GridSQL := TStringList.Create;
     with GridSQL do
@@ -400,19 +463,41 @@ begin
       Add('LEFT JOIN controleferias.projeto P');
       Add('ON (P.idprojeto = CB.idprojeto)');
       Add('WHERE');
-      Add('  C.stativo = true');
+      Add('  C.stativo = true ');
+
+      if ExisteFiltroEmAndamento then
+      begin
+        if not String.IsNullOrEmpty(FiltroPesquisaColaborador.LoginParte) then
+        begin
+          Add('AND');
+          Add( ' c.login ilike ''%'' || :paramFiltroLogin || ''%''');
+          Parameters.Add('paramFiltroLogin', FiltroPesquisaColaborador.LoginParte);
+        end;
+      end;
+
       Add('GROUP BY');
       Add('  C.idcolaborador,');
       Add('  C.login,');
       Add('  C.dscolaborador,');
       Add('  C.observacao');
+
+      if (ExisteFiltroEmAndamento) and (not String.IsNullOrEmpty(FiltroPesquisaColaborador.PreenchimentoFerias)) then
+      begin
+        Add('HAVING ');
+        Add('COALESCE(SUM(EXTRACT(EPOCH FROM (dtfinal - dtinicio)) / 86400), 0)::INTEGER');
+        if FiltroPesquisaColaborador.PreenchimentoFerias = 'Férias zeradas' then
+          Add('<= 0')
+        else
+          Add('> 0');
+      end;
+
       Add('ORDER BY');
       Add('  C.login DESC;');
       EndUpdate;
     end;
 
     TQueryManager.Instancia
-      .CreateQuery(GridSQL.Text, FDConnection, FDQuery, nil, False);
+      .CreateQuery(GridSQL.Text, FDConnection, FDQuery, Parameters, False);
 
     FrmStatus.Mensagem('Carregando quadro de funcinários...');
     if not FDQuery.IsEmpty then
@@ -438,6 +523,7 @@ begin
     FrmStatus.Mensagem('Ok.');
 
   finally
+    Parameters.Free;
     FrmStatus.Close;
     FrmStatus.Free;
     FDQuery.Free;
@@ -458,6 +544,18 @@ begin
     AtualizarGrid;
   end;
 end;
+
+procedure TFormPrincipal.BtnClearFiltroClick(Sender: TObject);
+begin
+  if Assigned(FiltroPesquisaColaborador) then
+  begin
+    FreeAndNil(FiltroPesquisaColaborador);
+  end;
+  EdtPesquisaLogin.Text := '';
+  ComboBox1.ItemIndex := -1;
+  AtualizarGrid;
+end;
+
 
 procedure TFormPrincipal.ConfigurarAcoes;
 begin

@@ -1,7 +1,7 @@
 object FormPrincipal: TFormPrincipal
   Left = 0
   Top = 0
-  Caption = 'Controle de f'#233'rias 1.1130.2'
+  Caption = 'Controle de f'#233'rias 1.1131'
   ClientHeight = 663
   ClientWidth = 1058
   Color = clBtnFace
@@ -22,9 +22,9 @@ object FormPrincipal: TFormPrincipal
   TextHeight = 15
   object DcGridPrincipal: TDCGrid
     Left = 8
-    Top = 151
+    Top = 206
     Width = 1042
-    Height = 431
+    Height = 376
     Anchors = [akLeft, akTop, akRight, akBottom]
     DefaultDrawing = False
     FixedCols = 0
@@ -34,7 +34,7 @@ object FormPrincipal: TFormPrincipal
     ScrollBars = ssVertical
     TabOrder = 0
     OnMouseDown = DcGridPrincipalMouseDown
-    ExplicitHeight = 428
+    ExplicitHeight = 373
     ColWidths = (
       64
       64
@@ -192,6 +192,58 @@ object FormPrincipal: TFormPrincipal
         Spacing = 0
         OnClick = BtnOpcoesClick
       end
+    end
+  end
+  object GpBxFiltros: TGroupBox
+    Left = 8
+    Top = 151
+    Width = 1042
+    Height = 49
+    Anchors = [akLeft, akTop, akRight]
+    Caption = 'Filtros'
+    TabOrder = 4
+    DesignSize = (
+      1042
+      49)
+    object EdtPesquisaLogin: TLabeledEdit
+      Left = 120
+      Top = 18
+      Width = 187
+      Height = 23
+      EditLabel.Width = 102
+      EditLabel.Height = 23
+      EditLabel.Caption = 'Procurar por Login:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold, fsItalic]
+      LabelPosition = lpLeft
+      ParentFont = False
+      TabOrder = 0
+      Text = ''
+      OnKeyPress = EdtPesquisaLoginKeyPress
+    end
+    object BtnClearFiltro: TButton
+      Left = 923
+      Top = 17
+      Width = 112
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Limpar Filtro'
+      TabOrder = 1
+      OnClick = BtnClearFiltroClick
+    end
+    object ComboBox1: TComboBox
+      Left = 313
+      Top = 18
+      Width = 145
+      Height = 23
+      TabOrder = 2
+      OnSelect = ComboBox1Select
+      Items.Strings = (
+        'F'#233'rias zeradas'
+        'Em Andamento')
     end
   end
   object FDGUIxWaitCursor1: TFDGUIxWaitCursor

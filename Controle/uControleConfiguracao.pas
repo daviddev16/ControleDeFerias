@@ -143,7 +143,7 @@ end;
 
 procedure TGerenciadorConfiguracao.CarregarConfiguracao;
 begin
-  fUltimaVersao          := GetValue('ControleFerias', 'UltimaVersao');
+  fUltimaVersao          := '1.1131'; { VERSÃO DA APLICAÇÃO }
   fClStatusAberto        := GetValue('VisualGridPrincipal', 'ClStatusAberto');
   fClStatusAndamento     := GetValue('VisualGridPrincipal', 'ClStatusAndamento');
   fClStatusFinalizado    := GetValue('VisualGridPrincipal', 'ClStatusFinalizado');
