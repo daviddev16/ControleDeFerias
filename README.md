@@ -14,6 +14,10 @@ O sistema de controle de férias vem com o propósito de facilitar o gerenciamen
 Toda a documentação da aplicação fica [neste site](https://daviddev16.gitbook.io/controle-de-ferias/). Desde a instalação e configuração do banco de dados,
 quanto o guia de utilização do sistema!
 
+# ⚙️ Projetos associados
+
+[LibGerenciadorDb](https://github.com/daviddev16/LibGerenciadorDb_11_3) e [LibComponentesVcl](https://github.com/daviddev16/LibComponentesVcl_11_3)
+
 # ⚙️ Tecnologias
 
 A aplicação é feita inteiramente no ``Delphi 11.3 Alexandria``, utiliza o ``PostgreSQL 9.x`` como banco de dados, ``GitBook`` para documentação e ``Inno Setup`` para criação do instalador.
