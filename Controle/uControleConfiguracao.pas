@@ -149,7 +149,7 @@ begin
   fClStatusFinalizado    := GetValue('VisualGridPrincipal', 'ClStatusFinalizado');
   fClFgTextoDesabilitado := GetValue('VisualGridPrincipal', 'ClFgTextoDesabilitado');
   fClBgTextoDesabilitado := GetValue('VisualGridPrincipal', 'ClBgTextoDesabilitado');
-  fVlMaximoDeDiasAComprir   := StrToInt(GetValue('CadastroEdicaoFerias', 'VlMaximoDeDiasAComprir'));
+  fVlMaximoDeDiasAComprir   := StrToInt(GetValue('CadastroEdicaoFerias', 'VlMaximoDeDiasACumprir'));
   fVlMinimoDeDiasEmPeriodos := StrToInt(GetValue('CadastroEdicaoFerias', 'VlMinimoDeDiasEmPeriodos'));
 end;
 

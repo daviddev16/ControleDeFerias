@@ -26,6 +26,7 @@ uses
   FireDAC.Stan.Error,
   uGerenciadores,
   D16Utils,
+  uVisualMiscs,
   Vcl.Imaging.pngimage;
 
 type
@@ -93,6 +94,7 @@ begin
   Label1.Caption := 'Controle de férias - ' + GerenciadorConfiguracao.UltimaVersao;
   EdtLogin.Text := 'SUPERVISOR';
   EdtSenha.Text := '123';
+  TGlobalVisualMiscs.CustomPrepareForm(Self);
 end;
 
 

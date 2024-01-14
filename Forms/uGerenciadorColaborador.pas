@@ -278,6 +278,7 @@ procedure TFrmGerenciadorColaborador.FormCreate(Sender: TObject);
 begin
   Constraints.MinHeight := ClientHeight;
   Constraints.MinWidth := ClientWidth;
+  TGlobalVisualMiscs.CustomPrepareForm(Self);
 end;
 
 

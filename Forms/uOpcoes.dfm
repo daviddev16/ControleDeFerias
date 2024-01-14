@@ -147,15 +147,15 @@ object FrmOpcoes: TFrmOpcoes
       DesignSize = (
         185
         41)
-      object LblMaxDiasAComprir: TLabel
+      object LblMaxDiasACumprir: TLabel
         Left = 0
         Top = 0
         Width = 170
         Height = 15
         Anchors = [akLeft, akTop, akRight]
-        Caption = 'Valor m'#225'ximo de dias a comprir:'
+        Caption = 'Valor m'#225'ximo de dias a cumprir:'
       end
-      object SpnVlMaxDiasAComprir: TSpinEdit
+      object SpnVlMaxDiasACumprir: TSpinEdit
         Left = 0
         Top = 17
         Width = 185

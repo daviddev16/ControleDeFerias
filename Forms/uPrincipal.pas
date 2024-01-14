@@ -271,7 +271,7 @@ begin
   try
     FrmOpcoes.ShowModal;
   finally
-    FrmOpcoes.Free;
+    FreeAndNil(FrmOpcoes);
     AtualizarGrid;
   end;
 

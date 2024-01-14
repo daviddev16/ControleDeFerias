@@ -168,7 +168,7 @@ object FrmGerenciadorColaborador: TFrmGerenciadorColaborador
       object LblLoginColab: TLabeledEdit
         Left = 13
         Top = 40
-        Width = 172
+        Width = 171
         Height = 23
         BiDiMode = bdLeftToRight
         EditLabel.Width = 33
@@ -183,7 +183,7 @@ object FrmGerenciadorColaborador: TFrmGerenciadorColaborador
       object LblDsColab: TLabeledEdit
         Left = 191
         Top = 40
-        Width = 238
+        Width = 237
         Height = 23
         BiDiMode = bdLeftToRight
         EditLabel.Width = 90

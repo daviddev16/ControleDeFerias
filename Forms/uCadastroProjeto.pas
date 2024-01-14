@@ -132,6 +132,7 @@ begin
   Constraints.MinHeight := ClientHeight;
   Constraints.MinWidth := ClientWidth;
   SetLength(CoresSelecionadas, 2);
+  TGlobalVisualMiscs.CustomPrepareForm(Self);
 end;
 
 {
@@ -324,6 +325,7 @@ begin
   DCLabelPreview1.Repaint;
   FixarPreviewCentro;
 end;
+
 
 procedure TFrmCadastroProjeto.ClBxFundoDblClick(Sender: TObject);
 begin

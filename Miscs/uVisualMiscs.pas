@@ -4,8 +4,12 @@ interface
 
 uses
   Vcl.Dialogs,
+  Vcl.Forms,
   System.SysUtils,
   System.StrUtils,
+  System.Classes,
+  Vcl.ExtCtrls,
+  Vcl.StdCtrls,
   System.Generics.Collections,
   System.Generics.Defaults,
   System.Variants,
@@ -28,6 +32,8 @@ type
       class function ConfirmarSimples(descricao: String): Integer;
       class function GetCorPeriodo(valor: Integer) : TArray<String>;
       class function GetTraducaoNomeColuna(nomeColuna: String): String;
+      class procedure BlockSpecialCharacterEvent(Sender: TObject; var Key: Char);
+      class procedure CustomPrepareForm(const form: TForm);
   end;
 
 var
@@ -111,6 +117,34 @@ end;
 class function TGlobalVisualMiscs.ConfirmarSimples(descricao: String): Integer;
 begin
    Result := MessageDlg(descricao, TMsgDlgType.mtConfirmation, [mbYes, mbCancel], 0)
+end;
+
+class procedure TGlobalVisualMiscs.CustomPrepareForm(const form: TForm);
+var
+ I : Integer;
+ ChildComponent : TComponent;
+begin
+  if Assigned(form) then
+    for I := 0 to form.ComponentCount - 1 do
+    begin
+     ChildComponent := form.Components[I];
+     if ChildComponent is TEdit then
+      (ChildComponent as TEdit).OnKeyPress := BlockSpecialCharacterEvent
+
+     else if ChildComponent is TMemo then
+      (ChildComponent as TMemo).OnKeyPress := BlockSpecialCharacterEvent
+
+     else if ChildComponent is TLabeledEdit then
+      (ChildComponent as TLabeledEdit).OnKeyPress := BlockSpecialCharacterEvent;
+
+    end;
+    ChildComponent := nil;
+end;
+
+class procedure TGlobalVisualMiscs.BlockSpecialCharacterEvent(Sender: TObject; var Key: Char);
+begin
+  if CharInSet(Key, [#39, #92]) then
+    Key := #0;
 end;
 
 end.

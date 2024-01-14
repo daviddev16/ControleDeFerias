@@ -36,9 +36,9 @@ type
     ClBxStatusFinalizado: TColorBox;
     BtnSalvarCfg: TButton;
     GpBxCfgPeriod: TGroupBox;
-    SpnVlMaxDiasAComprir: TSpinEdit;
+    SpnVlMaxDiasACumprir: TSpinEdit;
     PnVlMaxDaC: TPanel;
-    LblMaxDiasAComprir: TLabel;
+    LblMaxDiasACumprir: TLabel;
     PnPeriodoMinDFerias: TPanel;
     LblPeriodoMinDFerias: TLabel;
     SpnPeriodoMinDFerias: TSpinEdit;
@@ -101,7 +101,7 @@ begin
   InicializarClBxConfiguravel(ClBxStatusAberto,        'VisualGridPrincipal',  'ClStatusAberto');
   InicializarClBxConfiguravel(ClBxStatusAndamento,     'VisualGridPrincipal',  'ClStatusAndamento');
   InicializarClBxConfiguravel(ClBxStatusFinalizado,    'VisualGridPrincipal',  'ClStatusFinalizado');
-  InicializarSpinnerConfiguravel(SpnVlMaxDiasAComprir, 'CadastroEdicaoFerias', 'VlMaximoDeDiasAComprir');
+  InicializarSpinnerConfiguravel(SpnVlMaxDiasACumprir, 'CadastroEdicaoFerias', 'VlMaximoDeDiasACumprir');
   InicializarSpinnerConfiguravel(SpnPeriodoMinDFerias, 'CadastroEdicaoFerias', 'VlMinimoDeDiasEmPeriodos');
 end;
 
@@ -212,6 +212,7 @@ end;
 
 destructor TFrmOpcoes.Destroy;
 begin
+
   if Assigned(CargaCorTonalidades) then
     FreeAndNil(CargaCorTonalidades);
 
