@@ -429,9 +429,11 @@ var
   FrmStatus : TCarregamentoStatus;
   Parameters : TDictionary<String, Variant>;
   LasSelectedIndex : Integer;
+  LastTopRowValue : Integer;
   ExisteFiltroEmAndamento : Boolean;
 begin
   LasSelectedIndex := IfThen(DcGridPrincipal.Row <= -1, 0, DcGridPrincipal.Row);
+  LastTopRowValue := DcGridPrincipal.TopRow;
   Parameters := TDictionary<String, Variant>.Create;
   FrmStatus := TCarregamentoStatus.Create(Self);
   FrmStatus.Show;
@@ -517,8 +519,14 @@ begin
     if DcGridPrincipal.RowCount >= LasSelectedIndex then
     begin
       DcGridPrincipal.Row := LasSelectedIndex;
-      DcGridPrincipal.Update;
     end;
+
+    if LastTopRowValue <> -1 then
+    begin
+      DcGridPrincipal.TopRow := LastTopRowValue;
+    end;
+
+    DcGridPrincipal.Update;
 
     FrmStatus.Mensagem('Ok.');
 
